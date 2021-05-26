@@ -13,6 +13,19 @@
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+
+    <!-- GitHub Pages "404 hack" for HTML5 history -->
+    <!-- https://www.smashingmagazine.com/2016/08/sghpa-single-page-app-hack-github-pages/ -->
+    <script>
+      (function(){
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect != location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>

@@ -14,9 +14,10 @@ remote=$(git remote -v | grep '(push)' | awk '{print $2}')
 # navigate into the build output directory
 cd dist
 
-# enable HTML5 history mode in vue-router via "404.html hack"
-# https://stackoverflow.com/questions/47677220/vuejs-history-mode-with-github-gitlab-pages
-mv index.html 404.html
+# configure server-side redirect for GitHub Pages "404 hack"
+# https://www.smashingmagazine.com/2016/08/sghpa-single-page-app-hack-github-pages/
+repo_name=$(echo "$remote" | awk -F '/' '{print $(NF)}' | sed 's/.git//')
+sed -i'' "s/||REPO_NAME||/$repo_name/" ./404.html
 
 # get output dir ready to push via git
 git init
