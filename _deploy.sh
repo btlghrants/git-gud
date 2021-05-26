@@ -22,7 +22,10 @@ git commit -m 'deploy'
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/<REPO>.git main:gh-pages
 
+# local branch is master or main?
+branch=$(git branch --show-current)
+
 # push "dist repo" main branch to main project remote gh-pages branch
-git push --force "$remote" main:gh-pages
+git push --force "$remote" "$branch":gh-pages
 
 cd -
