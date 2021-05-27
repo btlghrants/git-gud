@@ -27,3 +27,9 @@ global.doRender = (component, options, callback) => {
     callback
   )
 }
+
+// https://github.com/testing-library/vue-testing-library/blob/master/src/__tests__/vuex.js
+// to pass per-test values to store, consider 2 step init:
+// - { vuetify, router, store, component, options, callback, render } = testHarness(component)
+// - store = {...store, ...overrides};
+// - render({store})
