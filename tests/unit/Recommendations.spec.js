@@ -1,10 +1,10 @@
-import { render } from '@testing-library/vue'
+// import { render } from '@testing-library/vue'
 import Component from '@/components/Recommendation.vue'
 
 describe('Recommendation.vue', () => {
   it('does', () => {
-    const { getByText } = render(Component);
-    
+    const { getByText } = doRender(Component);
+
     expect( getByText('Recommendations!') ).toBeInTheDocument();
   });
 })
