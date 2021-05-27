@@ -1,32 +1,64 @@
 <template>
-  <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>git-gud</v-toolbar-title>
+    </v-app-bar>
+
+    <v-navigation-drawer v-model="drawer" fixed temporary>
+      <!--  -->
+    </v-navigation-drawer>
+
+    <v-main>
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid class="text-center">
+
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
+    </v-main>
+
+    <v-footer app>v-footer</v-footer>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import VApp from 'vuetify/lib/components/VApp';
+import { VAppBar, VAppBarNavIcon } from 'vuetify/lib/components/VAppBar';
+import { VToolbarTitle } from 'vuetify/lib/components/VToolbar';
+import VNavigationDrawer from 'vuetify/lib/components/VNavigationDrawer';
+import VMain from 'vuetify/lib/components/VMain';
+import { VContainer } from 'vuetify/lib/components/VGrid';
+import VFooter from 'vuetify/lib/components/VFooter';
 
-#nav {
-  padding: 30px;
+export default {
+  components: {
+    VApp,
+    VAppBar,
+    VAppBarNavIcon,
+    VToolbarTitle,
+    VNavigationDrawer,
+    VMain,
+    VContainer,
+    VFooter
+  },
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  data() {
+    return {
+      drawer: false
+    };
+  },
 
-    &.router-link-exact-active {
-      color: #42b983;
+  mounted () {
+    window.addEventListener('keydown', this.keydown)
+  },
+  destroyed () {
+    window.removeEventListener('keydown', this.keydown)
+  },
+  methods: {
+    keydown (event) {
+      event.key === 'Escape' ? this.drawer = false : '';
     }
   }
 }
-</style>
+</script>
