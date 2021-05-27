@@ -1,11 +1,18 @@
 <template>
-  <div>Recommendations!</div>
+  <div>
+    <div>Recommendations!</div>
+    <div>{{ print($vuetify.theme.isDark) }}</div>
+  </div>
 </template>
 
 <script>
-// import { defineComponent } from '@vue/composition-api'
+import { inspect } from 'util';
 
-export default ({
-  
-})
+export default {
+  methods: {
+    print(obj) {
+      return inspect(obj);
+    }
+  }
+}
 </script>
