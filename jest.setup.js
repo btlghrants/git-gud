@@ -33,3 +33,5 @@ global.doRender = (component, options, callback) => {
 // - { vuetify, router, store, component, options, callback, render } = testHarness(component)
 // - store = {...store, ...overrides};
 // - render({store})
+
+global.fetch = jest.fn(() => Promise.resolve());
