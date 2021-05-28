@@ -62,3 +62,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  // https://vuetifyjs.com/en/getting-started/frequently-asked-questions/#scrollbar-overflow
+  html {
+    overflow-y: auto;
+  }
+</style>
