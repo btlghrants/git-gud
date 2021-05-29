@@ -10,7 +10,7 @@ import util from 'util';
 util.inspect.defaultOptions.depth = null;
 
 // https://github.com/testing-library/vue-testing-library#more-examples
-
+// https://github.com/testing-library/vue-testing-library/blob/master/src/__tests__/vuetify.js
 global.doRender = (component, options, callback) => {
   const root = document.createElement('div')
   root.setAttribute('data-app', 'true')

@@ -2,19 +2,19 @@ import { fireEvent, within } from '@testing-library/vue';
 import Component from '@/App.vue'
 
 it('has a top bar', () => {
-  const { getByRole } = doRender(Component);
+  const { getByRole } = doRender(Component, { stubs: [ 'RouterView' ] });
   expect( getByRole('banner') ).toHaveTextContent('git-gud');
 });
 
 describe('left, pop-out menu', () => {
   it('exists', () => {
-    const { getByRole } = doRender(Component);
+    const { getByRole } = doRender(Component, { stubs: [ 'RouterView' ] });
     expect( getByRole('complementary') ).toBeInTheDocument();
   });
 
   it('defaults to closed', () => {
     const closed = 'v-navigation-drawer--close';
-    const { getByRole } = doRender(Component);
+    const { getByRole } = doRender(Component, { stubs: [ 'RouterView' ] });
     
     expect( getByRole('complementary') ).toHaveClass(closed);
   });
@@ -22,7 +22,7 @@ describe('left, pop-out menu', () => {
   it('opens and closes', async () => {
     const closed = 'v-navigation-drawer--close';
     const open = 'v-navigation-drawer--open';
-    const { getByRole } = doRender(Component);
+    const { getByRole } = doRender(Component, { stubs: [ 'RouterView' ] });
 
     expect( getByRole('complementary') ).toHaveClass(closed);
     
@@ -37,11 +37,11 @@ describe('left, pop-out menu', () => {
 });
 
 it('has a footer', () => {
-  const { getByRole } = doRender(Component);
+  const { getByRole } = doRender(Component, { stubs: [ 'RouterView' ] });
   expect( getByRole('contentinfo') ).toBeInTheDocument();
 });
 
 it('has a main content area', () => {
-  const { getByRole } = doRender(Component);
+  const { getByRole } = doRender(Component, { stubs: [ 'RouterView' ] });
   expect( getByRole('main') ).toBeInTheDocument();
 });
