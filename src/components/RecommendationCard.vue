@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <a :href="recommendation.link" target="_blank">
+      <a class="text-decoration-none" :href="recommendation.link" target="_blank">
         {{ recommendation.name }}
       </a>
     </v-card-title>
@@ -14,7 +14,8 @@
           {{ this[`${recommendation.modality}Icon`] }}
         </v-icon>
       </span>
-      <span class="duration">{{ this.duration(recommendation.duration) }}</span>
+      <span class="pr-6 font-italic">{{ this.duration(recommendation.duration) }}</span>
+      <span class="font-italic">{{ this.cost(recommendation.cost) }}</span>
     </v-card-subtitle>
     <v-card-text>{{ recommendation.description }}</v-card-text>
   </v-card>
@@ -29,7 +30,9 @@ import {
 } from 'vuetify/lib/components/VCard';
 import { VIcon } from 'vuetify/lib/components/VIcon';
 import {
+  mdiBookOpenPageVariant,
   mdiHeadphones,
+  mdiSchoolOutline,
   mdiTelevisionPlay,
   mdiText
 } from '@mdi/js';
@@ -53,6 +56,8 @@ export default {
   data() {
     return {
       audioIcon: mdiHeadphones,
+      bookIcon: mdiBookOpenPageVariant,
+      courseIcon: mdiSchoolOutline,
       textIcon: mdiText,
       videoIcon: mdiTelevisionPlay
     };
@@ -65,16 +70,15 @@ export default {
         h === 0 ? 0 : `${h}h`,
         m === 0 ? 0 : `${m}m`
       ].join(' ');
+    },
+
+    cost(raw) {
+      return raw === "$0.00" ? "(free)" :`(${raw})`;
     }
   }
 }
 </script>
 
 <style scoped>
-  a {
-    text-decoration: none;
-  }
-  .duration {
-    font-style: italic;
-  }
+
 </style>
