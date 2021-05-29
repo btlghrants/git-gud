@@ -6,7 +6,7 @@
       <v-icon>{{ svgAccount }}</v-icon>
     </div>
   -->
-  <div>card</div>
+  <div>{{ recommendation }}</div>
 </template>
 
 <script>
@@ -15,6 +15,12 @@
 // import { mdiAccount } from '@mdi/js';
 
 export default {
+  props: {
+    recommendation: {
+      type: Object,
+      required: true
+    }
+  }
   // components: {
   //   VIcon
   // },

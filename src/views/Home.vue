@@ -8,23 +8,28 @@
     </template>
 
     <template v-else>
-      <pre>{{ recommendations }}</pre>
+      <template v-for="recommendation in recommendations">
+        <recommendation-card
+          :key="recommendation.key"
+          :recommendation="recommendation"
+        />
+      </template>
     </template>
 
   </div>
 </template>
 
 <script>
-import { VProgressCircular } from 'vuetify/lib/components/VProgressCircular';
-// import RecommendationCard from '@/components/RecommendationCard.vue';
+import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
 import data from '@/DataService.js'
+import RecommendationCard from '../components/RecommendationCard.vue';
 
 export default {
   name: 'Home',
 
   components: {
-    VProgressCircular
-    // RecommendationCard
+    VProgressCircular,
+    RecommendationCard
   },
 
   data() {

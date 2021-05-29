@@ -45,7 +45,15 @@ export class DataService {
       .find(vr => vr.range.startsWith(range))
       .values;
 
-    return rows.map(row => zipObj(head, row));
+    return rows.map((row, idx) => {
+      // join header & cell into { key: value }
+      let datum = zipObj(head, row);
+
+      // add row index as object id for vue to use as render key
+      datum.id = idx;
+
+      return datum;
+    });
   }
 
   get recommendations() {
