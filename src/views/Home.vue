@@ -17,7 +17,7 @@
 <script>
 import { VProgressCircular } from 'vuetify/lib/components/VProgressCircular';
 // import RecommendationCard from '@/components/RecommendationCard.vue';
-import GApi from '@/GApi.js'
+import data from '@/DataService.js'
 
 export default {
   name: 'Home',
@@ -36,10 +36,10 @@ export default {
     };
   },
 
-  created() {
-    new GApi(window.gapi).getRecommendations()
-      .then( recommendations => {
-        this.recommendations = recommendations;
+  async created() {
+    await data.load()
+      .then(() => {
+        this.recommendations = data.recommendations;
         this.error = false;
         this.loading = false;
       })
