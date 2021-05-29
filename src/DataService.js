@@ -1,17 +1,17 @@
-export class DataService {
+import { zipObj } from 'ramda';
 
+export class DataService {
   API_KEY = 'AIzaSyBoHg4ioxQf7QvFtULXHKvkLnel6SbkSmo';
   SHEET_ID = '14AF9Y2m718WHMruhQ-vIYigJqP30Vje2JuDNnmIMWTI';
 
-  response = null;
-
+  // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchGet
+  apiResponse = null;
+  
   constructor(gapi = window.gapi || global.api) {
-    // expects to find Google API Client for Javascript in global scope, but
-    //  accepts constructor injection to facilitate ease of testing.
-    //  https://github.com/google/google-api-javascript-client/blob/master/docs/start.md
     this.gapi = gapi;
   }
 
+  // https://github.com/google/google-api-javascript-client/blob/master/docs/start.md
   async load() {
     await new Promise((resolve) => this.gapi.load('client', resolve));
         
@@ -19,24 +19,57 @@ export class DataService {
       'apiKey': this.API_KEY,
       'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest']
     });
-    
+
+    // batch call to avoid any GCP quota issues
+    // https://developers.google.com/sheets/api/limits
     return this.gapi.client.sheets.spreadsheets.values
-      .get({
+      .batchGet({
         'spreadsheetId': this.SHEET_ID,
-        'range': 'recommendations!A1:Z'
+        'ranges': [
+          'lookups!A1:A', // levels
+          'lookups!B1:B', // roles
+          'lookups!C1:C', // depths
+          'lookups!D1:D', // qualities
+          'lookups!E1:E', // topics
+          'recommendations!A1:Z'
+        ]
       })
-      .then(response => this.response = response)
-      .catch(error => error);
+      .then(resp => this.apiResponse = resp)
+      .catch(err => err);
+  }
+
+  valuesFor(range) {
+    if (! this.apiResponse) { return [] }
+
+    const [ head, ...rows ] = this.apiResponse.result.valueRanges
+      .find(vr => vr.range.startsWith(range))
+      .values;
+
+    return rows.map(row => zipObj(head, row));
   }
 
   get recommendations() {
-    if (! this.response) { return [] }
-    
-    const [ head, ...rows ] = this.response.result.values;
+    return this.valuesFor('recommendations!');
+  }
 
-    return rows.map(row => Object.assign(
-      {}, ...head.map( (key, idx) => ({ [key]: row[idx] }) )
-    ));
+  get levels() {
+    return this.valuesFor('lookups!A1')
+  }
+
+  get roles() {
+    return this.valuesFor('lookups!B1')
+  }
+
+  get depths() {
+    return this.valuesFor('lookups!C1')
+  }
+
+  get qualities() {
+    return this.valuesFor('lookups!D1')
+  }
+
+  get topics() {
+    return this.valuesFor('lookups!E1')
   }
 }
 
