@@ -28,9 +28,10 @@ export class DataService {
         'ranges': [
           'lookups!A1:A', // levels
           'lookups!B1:B', // roles
-          'lookups!C1:C', // depths
+          'lookups!C1:C', // focuses
           'lookups!D1:D', // qualities
           'lookups!E1:E', // topics
+          'lookups!F1:F', // modalities
           'recommendations!A1:Z'
         ]
       })
@@ -61,23 +62,27 @@ export class DataService {
   }
 
   get levels() {
-    return this.valuesFor('lookups!A1')
+    return this.valuesFor('lookups!A1');
   }
 
   get roles() {
-    return this.valuesFor('lookups!B1')
+    return this.valuesFor('lookups!B1');
   }
 
-  get depths() {
-    return this.valuesFor('lookups!C1')
+  get focuses() {
+    return this.valuesFor('lookups!C1');
   }
 
   get qualities() {
-    return this.valuesFor('lookups!D1')
+    return this.valuesFor('lookups!D1');
   }
 
   get topics() {
-    return this.valuesFor('lookups!E1')
+    return this.valuesFor('lookups!E1');
+  }
+
+  get modalities() {
+    return this.valuesFor('lookups!F1');
   }
 }
 

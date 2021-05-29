@@ -1,19 +1,18 @@
 <template>
-  <div class="home">
-    
+  <div>
+
     <template v-if="loading">
       <div class="text-center">
         <v-progress-circular indeterminate color="primary"/>
       </div>
     </template>
 
-    <template v-else>
-      <template v-for="recommendation in recommendations">
-        <recommendation-card
-          :key="recommendation.key"
-          :recommendation="recommendation"
-        />
-      </template>
+    <template v-else>  
+      <v-row v-for="recomm in recommendations" :key="recomm.key">
+        <v-col>
+          <recommendation-card :recommendation="recomm"/>
+        </v-col>
+      </v-row>
     </template>
 
   </div>
@@ -21,14 +20,17 @@
 
 <script>
 import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
-import data from '@/DataService.js'
+import { VRow, VCol } from 'vuetify/lib/components/VGrid';
 import RecommendationCard from '../components/RecommendationCard.vue';
+import data from '@/DataService.js'
 
 export default {
   name: 'Home',
 
   components: {
     VProgressCircular,
+    VRow,
+    VCol,
     RecommendationCard
   },
 
