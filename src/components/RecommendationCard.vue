@@ -7,7 +7,7 @@
       :src="recommendation.image"
     />
     <v-card-title>
-      <a class="text-decoration-none font-italic" :href="recommendation.link" target="_blank">
+      <a class="title ellipsis-2" :href="recommendation.link" target="_blank">
         {{ recommendation.name }}
       </a>
     </v-card-title>
@@ -27,14 +27,18 @@
         <span class="font-italic">{{ this.cost(recommendation.cost) }}</span>
       </div>
     </v-card-subtitle>
-    <v-card-text>{{ recommendation.description }}</v-card-text>
+    <v-card-text>
+      <div class="ellipsis-5">
+        {{ recommendation.description }}
+      </div>
+    </v-card-text>
   </v-card>
 </template>
 
 <script>
 import {
   VCard,
-  // VImg,
+  VImg,
   VCardTitle,
   VCardSubtitle,
   VCardText
@@ -58,7 +62,7 @@ export default {
 
   components: {
     VCard,
-    // VImg,
+    VImg,
     VCardTitle,
     VCardSubtitle,
     VCardText,
@@ -112,6 +116,21 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.ellipsis-100 {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 100;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+.ellipsis-2 {
+  @extend .ellipsis-100;
+  -webkit-line-clamp: 2;
+}
+.ellipsis-5 {
+  @extend .ellipsis-100;
+  -webkit-line-clamp: 5;
+}
 </style>
