@@ -50,7 +50,7 @@ export default {
     bp() {
       // https://vuetifyjs.com/en/features/breakpoints
       return this.$vuetify.breakpoint.name;
-    }
+    },
   },
 
   async created() {

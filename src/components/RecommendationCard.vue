@@ -1,11 +1,13 @@
 <template>
   <v-card>
     <v-img
-      height="10rem"
+      height="250"
+      class="text-white"
+      :style="{ backgroundColor: color(recommendation.image) }"
       :src="recommendation.image"
     />
     <v-card-title>
-      <a class="text-decoration-none" :href="recommendation.link" target="_blank">
+      <a class="text-decoration-none font-italic" :href="recommendation.link" target="_blank">
         {{ recommendation.name }}
       </a>
     </v-card-title>
@@ -32,7 +34,7 @@
 <script>
 import {
   VCard,
-  VImg,
+  // VImg,
   VCardTitle,
   VCardSubtitle,
   VCardText
@@ -56,7 +58,7 @@ export default {
 
   components: {
     VCard,
-    VImg,
+    // VImg,
     VCardTitle,
     VCardSubtitle,
     VCardText,
@@ -84,6 +86,27 @@ export default {
 
     cost(raw) {
       return raw === "$0.00" ? "(free)" :`(${raw})`;
+    },
+
+    color(seed = "") {
+      // https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
+      // https://stackoverflow.com/a/21682946
+      const getHashCode = () => {
+        var hash = 0;
+        if (seed.length == 0) return hash;
+        for (var i = 0; i < seed.length; i++) {
+            hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+      };
+
+      const intToHSL = (i) => {
+        var shortened = i % 360;
+        return "hsl(" + shortened + ",100%,20%)";
+      };
+
+      return intToHSL( getHashCode(seed) );
     }
   }
 }
