@@ -1,21 +1,29 @@
 <template>
   <v-card>
+    <v-img
+      height="10rem"
+      :src="recommendation.image"
+    />
     <v-card-title>
       <a class="text-decoration-none" :href="recommendation.link" target="_blank">
         {{ recommendation.name }}
       </a>
     </v-card-title>
     <v-card-subtitle>
-      <span class="pr-2">{{ recommendation.topic }}</span>
-      <span class="pr-2"> - </span>
-      <span class="pr-6">{{ recommendation.focus }}</span>
-      <span class="pr-1">
-        <v-icon small class="pb-1">
-          {{ this[`${recommendation.modality}Icon`] }}
-        </v-icon>
-      </span>
-      <span class="pr-6 font-italic">{{ this.duration(recommendation.duration) }}</span>
-      <span class="font-italic">{{ this.cost(recommendation.cost) }}</span>
+      <div>
+        <span class="pr-2">{{ recommendation.topic }}</span>
+        <span class="pr-2"> - </span>
+        <span>{{ recommendation.focus }}</span>
+      </div>
+      <div>
+        <span class="pr-1">
+          <v-icon small class="pb-1">
+            {{ this[`${recommendation.modality}Icon`] }}
+          </v-icon>
+        </span>
+        <span class="pr-2 font-italic">{{ this.duration(recommendation.duration) }}</span>
+        <span class="font-italic">{{ this.cost(recommendation.cost) }}</span>
+      </div>
     </v-card-subtitle>
     <v-card-text>{{ recommendation.description }}</v-card-text>
   </v-card>
@@ -24,6 +32,7 @@
 <script>
 import {
   VCard,
+  VImg,
   VCardTitle,
   VCardSubtitle,
   VCardText
@@ -47,6 +56,7 @@ export default {
 
   components: {
     VCard,
+    VImg,
     VCardTitle,
     VCardSubtitle,
     VCardText,

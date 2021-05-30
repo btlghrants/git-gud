@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <template v-if="loading">
       <div class="text-center">
         <v-progress-circular indeterminate color="primary"/>
@@ -8,8 +7,12 @@
     </template>
 
     <template v-else>  
-      <v-row v-for="recomm in recommendations" :key="recomm.key">
-        <v-col>
+      <v-row>
+        <v-col
+          cols="12" sm="6" md="6" lg="4" xl="3"
+          v-for="recomm in recommendations"
+          :key="recomm.key"
+        >
           <recommendation-card :recommendation="recomm"/>
         </v-col>
       </v-row>
@@ -41,6 +44,13 @@ export default {
       rawResponse: null,
       recommendations: []
     };
+  },
+
+  methods: {
+    bp() {
+      // https://vuetifyjs.com/en/features/breakpoints
+      return this.$vuetify.breakpoint.name;
+    }
   },
 
   async created() {
