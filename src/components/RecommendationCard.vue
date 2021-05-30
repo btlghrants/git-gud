@@ -69,7 +69,7 @@ export default {
       return [
         h === 0 ? 0 : `${h}h`,
         m === 0 ? 0 : `${m}m`
-      ].join(' ');
+      ].filter(x => x).join(' ');
     },
 
     cost(raw) {
