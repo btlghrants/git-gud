@@ -1,7 +1,7 @@
 <template>
-  <v-card>
+  <v-card height="525px">
     <v-img
-      height="250"
+      height="250px"
       class="text-white"
       :style="{ backgroundColor: color(recommendation.image) }"
       :src="recommendation.image"
