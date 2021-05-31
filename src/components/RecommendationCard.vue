@@ -6,17 +6,20 @@
       :style="{ backgroundColor: color(recommendation.image) }"
       :src="recommendation.image"
     />
+
     <v-card-title>
       <a class="text-sm title ellipsis-2" :href="recommendation.link" target="_blank">
         {{ recommendation.name }}
       </a>
     </v-card-title>
+
     <v-card-subtitle>
       <div>
         <span class="pr-2">{{ recommendation.topic }}</span>
         <span class="pr-2"> - </span>
         <span>{{ recommendation.focus }}</span>
       </div>
+
       <div>
         <span class="pr-1">
           <v-icon small class="pb-1">
@@ -27,6 +30,7 @@
         <span class="font-italic">{{ this.cost(recommendation.cost) }}</span>
       </div>
     </v-card-subtitle>
+
     <v-card-text>
       <div class="ellipsis-5">
         {{ recommendation.description }}
