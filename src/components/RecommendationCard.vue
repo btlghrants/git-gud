@@ -7,7 +7,7 @@
       :src="recommendation.image"
     />
     <v-card-title>
-      <a class="title ellipsis-2" :href="recommendation.link" target="_blank">
+      <a class="text-sm title ellipsis-2" :href="recommendation.link" target="_blank">
         {{ recommendation.name }}
       </a>
     </v-card-title>
@@ -132,5 +132,8 @@ export default {
 .ellipsis-5 {
   @extend .ellipsis-100;
   -webkit-line-clamp: 5;
+}
+a {
+  text-decoration: none;
 }
 </style>
