@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="loading">
-      <div class="text-center">
+      <div class="dead-center">
         <v-progress-circular indeterminate color="primary"/>
       </div>
     </template>
@@ -110,6 +110,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .dead-center {
+    text-align: center;
+    height: calc(100vh - 64px - 32px);
+    line-height: calc(100vh - 64px - 32px);
+  }
   .v-virtual-scroll {
     overflow-x: hidden;
   }
