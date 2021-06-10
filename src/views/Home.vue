@@ -9,7 +9,7 @@
     <template v-else>
       <v-virtual-scroll
         tabindex="0" ref="scroller" @hook:mounted="scrollerMounted"
-        height="calc(100vh - 64px - 32px)"
+        height="var(--var-main-height)"
         itemHeight="552px"
         :items="hands"
         bench="1"
@@ -112,8 +112,8 @@ export default {
 <style lang="scss" scoped>
   .dead-center {
     text-align: center;
-    height: calc(100vh - 64px - 32px);
-    line-height: calc(100vh - 64px - 32px);
+    height: var(--var-main-height);
+    line-height: var(--var-main-height);
   }
   .v-virtual-scroll {
     overflow-x: hidden;

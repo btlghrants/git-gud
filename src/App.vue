@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app height="64px">
+    <v-app-bar app class="app-header">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>git-gud</v-toolbar-title>
     </v-app-bar>
@@ -14,7 +14,7 @@
       <router-view></router-view>
     </v-main>
 
-    <v-footer app height="32px">v-footer</v-footer>
+    <v-footer app class="app-footer">v-footer</v-footer>
   </v-app>
 </template>
 
@@ -61,5 +61,21 @@ export default {
   // https://vuetifyjs.com/en/getting-started/frequently-asked-questions/#scrollbar-overflow
   html {
     overflow: hidden;
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/calc()#nested_calc_with_css_variables
+  // https://stackoverflow.com/questions/53240081/css-variables-use-in-vue
+  * {
+    --var-header-height: 64px;
+    --var-footer-height: 32px;
+    --var-main-height: calc(100vh - var(--var-header-height) - var(--var-footer-height));
+  }
+  
+  .app-header {
+    height: var(--var-header-height) !important;
+  }
+
+  .app-footer {
+    height: var(--var-footer-height);
   }
 </style>
