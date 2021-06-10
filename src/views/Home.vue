@@ -6,12 +6,17 @@
       </div>
     </template>
 
-    <template v-else>  
-      <recommendation-hand
-        v-for="hand in hands"
-        :key="hand.id"
-        :recommendations="hand.recommendations"
-      />
+    <template v-else>
+      <v-row v-for="hand in hands" :key="hand.id">
+        <v-col
+          cols="12" sm="6" md="6" lg="4" xl="3"
+          v-for="(rec, idx) in hand.recommendations"
+          :key="`${idx}-${rec.name}`"
+        >
+          <recommendation-card :recommendation="rec"
+          />
+        </v-col>
+      </v-row>
     </template>
 
   </div>
@@ -19,7 +24,7 @@
 
 <script>
 import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
-import RecommendationHand from '../components/RecommendationHand.vue';
+import RecommendationCard from '../components/RecommendationCard.vue';
 import data from '@/DataService.js'
 import { splitEvery } from 'ramda';
 
@@ -28,7 +33,7 @@ export default {
 
   components: {
     VProgressCircular,
-    RecommendationHand
+    RecommendationCard
   },
 
   data() {
