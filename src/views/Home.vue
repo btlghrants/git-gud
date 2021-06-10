@@ -8,13 +8,14 @@
 
     <template v-else>
       <v-virtual-scroll
+        tabindex="0" ref="scroller" @hook:mounted="scrollerMounted"
         height="calc(100vh - 64px - 32px)"
         itemHeight="552px"
         :items="hands"
         bench="1"
       >
         <template #default="{ item }">
-          <v-container fluid>
+          <v-container>
             <v-row>
               <v-col
                 cols="12" sm="6" md="6" lg="4" xl="3"
@@ -83,6 +84,15 @@ export default {
     },
   },
 
+  methods: {
+    // https://stackoverflow.com/questions/49084991/autofocus-to-a-div-so-we-can-use-arrow-keys-to-scroll-without-having-to-click-fi
+    // https://stackoverflow.com/questions/59956948/vuejs-mounted-hook-in-v-on-directive
+    // https://michaelnthiessen.com/set-focus-on-input-vue/
+    scrollerMounted() {
+      this.$refs.scroller.$el.focus();
+    }
+  },
+
   async created() {
     await data.load()
       .then(() => {
@@ -102,5 +112,8 @@ export default {
 <style lang="scss" scoped>
   .v-virtual-scroll {
     overflow-x: hidden;
+  }
+  .v-virtual-scroll:focus {
+    outline: 0 solid transparent;
   }
 </style>
