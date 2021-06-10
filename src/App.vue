@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar app height="64px">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>git-gud</v-toolbar-title>
     </v-app-bar>
@@ -66,6 +66,6 @@ export default {
 <style lang="scss">
   // https://vuetifyjs.com/en/getting-started/frequently-asked-questions/#scrollbar-overflow
   html {
-    overflow-y: auto;
+    overflow: hidden;
   }
 </style>

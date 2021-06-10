@@ -7,16 +7,25 @@
     </template>
 
     <template v-else>
-      <v-row v-for="hand in hands" :key="hand.id">
-        <v-col
-          cols="12" sm="6" md="6" lg="4" xl="3"
-          v-for="(rec, idx) in hand.recommendations"
-          :key="`${idx}-${rec.name}`"
-        >
-          <recommendation-card :recommendation="rec"
-          />
-        </v-col>
-      </v-row>
+      <v-virtual-scroll
+        height="100vh"
+        itemHeight="549px"
+        :items="hands"
+        bench="2"
+      >
+        <template #default="{ item }">
+          <v-row>
+            <v-col
+              cols="12" sm="6" md="6" lg="4" xl="3"
+              v-for="(rec, idx) in item.recommendations"
+              :key="`${idx}-${rec.name}`"
+            >
+              <recommendation-card :recommendation="rec"
+              />
+            </v-col>
+          </v-row>
+        </template>
+      </v-virtual-scroll>
     </template>
 
   </div>
@@ -24,6 +33,7 @@
 
 <script>
 import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
+import VVirtualScroll from 'vuetify/lib/components/VVirtualScroll';
 import RecommendationCard from '../components/RecommendationCard.vue';
 import data from '@/DataService.js'
 import { splitEvery } from 'ramda';
@@ -33,6 +43,7 @@ export default {
 
   components: {
     VProgressCircular,
+    VVirtualScroll,
     RecommendationCard
   },
 
@@ -81,3 +92,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .v-virtual-scroll {
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .v-virtual-scroll::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+</style>
