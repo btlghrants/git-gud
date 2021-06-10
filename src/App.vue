@@ -11,14 +11,14 @@
 
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container>
+      <v-container fluid>
 
         <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>
     </v-main>
 
-    <v-footer app>v-footer</v-footer>
+    <v-footer app height="32px">v-footer</v-footer>
   </v-app>
 </template>
 

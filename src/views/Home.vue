@@ -8,8 +8,9 @@
 
     <template v-else>
       <v-virtual-scroll
-        height="100vh"
-        itemHeight="549px"
+        ref="scroller"
+        height="calc(100vh - 64px - 32px)"
+        itemHeight="552px"
         :items="hands"
         bench="2"
       >
@@ -74,7 +75,7 @@ export default {
           { id: `${idx}-${hand[0].name}`, recommendations: hand }
         ))
       );
-    }
+    },
   },
 
   async created() {
@@ -95,12 +96,6 @@ export default {
 
 <style lang="scss" scoped>
   .v-virtual-scroll {
-    overflow: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .v-virtual-scroll::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+    overflow-x: hidden;
   }
 </style>
