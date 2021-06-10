@@ -8,23 +8,24 @@
 
     <template v-else>
       <v-virtual-scroll
-        ref="scroller"
         height="calc(100vh - 64px - 32px)"
         itemHeight="552px"
         :items="hands"
-        bench="2"
+        bench="1"
       >
         <template #default="{ item }">
-          <v-row>
-            <v-col
-              cols="12" sm="6" md="6" lg="4" xl="3"
-              v-for="(rec, idx) in item.recommendations"
-              :key="`${idx}-${rec.name}`"
-            >
-              <recommendation-card :recommendation="rec"
-              />
-            </v-col>
-          </v-row>
+          <v-container fluid>
+            <v-row>
+              <v-col
+                cols="12" sm="6" md="6" lg="4" xl="3"
+                v-for="(rec, idx) in item.recommendations"
+                :key="`${idx}-${rec.name}`"
+              >
+                <recommendation-card :recommendation="rec"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
         </template>
       </v-virtual-scroll>
     </template>
@@ -35,6 +36,7 @@
 <script>
 import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
 import VVirtualScroll from 'vuetify/lib/components/VVirtualScroll';
+import { VContainer, VRow, VCol } from 'vuetify/lib/components/VGrid';
 import RecommendationCard from '../components/RecommendationCard.vue';
 import data from '@/DataService.js'
 import { splitEvery } from 'ramda';
@@ -45,6 +47,9 @@ export default {
   components: {
     VProgressCircular,
     VVirtualScroll,
+    VContainer,
+    VRow,
+    VCol,
     RecommendationCard
   },
 

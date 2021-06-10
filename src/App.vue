@@ -10,12 +10,8 @@
     </v-navigation-drawer>
 
     <v-main>
-      <!-- Provides the application the proper gutter -->
-      <v-container fluid>
-
-        <!-- If using vue-router -->
-        <router-view></router-view>
-      </v-container>
+      <!-- If using vue-router -->
+      <router-view></router-view>
     </v-main>
 
     <v-footer app height="32px">v-footer</v-footer>
@@ -28,7 +24,6 @@ import { VAppBar, VAppBarNavIcon } from 'vuetify/lib/components/VAppBar';
 import { VToolbarTitle } from 'vuetify/lib/components/VToolbar';
 import VNavigationDrawer from 'vuetify/lib/components/VNavigationDrawer';
 import VMain from 'vuetify/lib/components/VMain';
-import { VContainer } from 'vuetify/lib/components/VGrid';
 import VFooter from 'vuetify/lib/components/VFooter';
 
 export default {
@@ -39,7 +34,6 @@ export default {
     VToolbarTitle,
     VNavigationDrawer,
     VMain,
-    VContainer,
     VFooter
   },
 
