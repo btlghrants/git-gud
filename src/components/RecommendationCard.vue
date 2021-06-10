@@ -42,12 +42,12 @@
 <script>
 import {
   VCard,
-  VImg,
   VCardTitle,
   VCardSubtitle,
   VCardText
 } from 'vuetify/lib/components/VCard';
 import { VIcon } from 'vuetify/lib/components/VIcon';
+import { VImg } from 'vuetify/lib/components/VImg';
 import {
   mdiBookOpenPageVariant,
   mdiHeadphones,

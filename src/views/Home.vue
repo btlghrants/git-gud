@@ -7,15 +7,11 @@
     </template>
 
     <template v-else>  
-      <v-row>
-        <v-col
-          cols="12" sm="6" md="6" lg="4" xl="3"
-          v-for="recomm in recommendations"
-          :key="recomm.key"
-        >
-          <recommendation-card :recommendation="recomm"/>
-        </v-col>
-      </v-row>
+      <recommendation-hand
+        v-for="hand in hands"
+        :key="hand.id"
+        :recommendations="hand.recommendations"
+      />
     </template>
 
   </div>
@@ -23,18 +19,16 @@
 
 <script>
 import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
-import { VRow, VCol } from 'vuetify/lib/components/VGrid';
-import RecommendationCard from '../components/RecommendationCard.vue';
+import RecommendationHand from '../components/RecommendationHand.vue';
 import data from '@/DataService.js'
+import { splitEvery } from 'ramda';
 
 export default {
   name: 'Home',
 
   components: {
     VProgressCircular,
-    VRow,
-    VCol,
-    RecommendationCard
+    RecommendationHand
   },
 
   data() {
@@ -46,11 +40,25 @@ export default {
     };
   },
 
-  methods: {
-    bp() {
-      // https://vuetifyjs.com/en/features/breakpoints
-      return this.$vuetify.breakpoint.name;
+  computed: {
+    handSize() {
+      const bp = this.$vuetify.breakpoint.name;
+      return (
+        bp === 'xs' ? 1 :
+        bp === 'sm' ? 2 :
+        bp === 'md' ? 2 :
+        bp === 'lg' ? 3 :
+                      4
+      );
     },
+
+    hands() {
+      return (
+        splitEvery(this.handSize, this.recommendations).map((hand, idx) => (
+          { id: `${idx}-${hand[0].name}`, recommendations: hand }
+        ))
+      );
+    }
   },
 
   async created() {
