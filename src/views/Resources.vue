@@ -27,7 +27,9 @@
       @click="openFilterDialog()"
       color="primary"
     >
-      <v-icon>{{ filterIcon }}</v-icon>
+      <v-icon>
+        {{ filterText === "" ? filterOffIcon : filterOnIcon }}
+      </v-icon>
     </v-btn>
 
     <!-- https://github.com/vuetifyjs/vuetify/issues/6016 -->
@@ -72,7 +74,7 @@ import VForm from 'vuetify/lib/components/VForm'
 import VTextField from 'vuetify/lib/components/VTextField'
 import ResourceCard from '../components/ResourceCard.vue';
 import { splitEvery } from 'ramda';
-import { mdiFilterVariant } from '@mdi/js'; 
+import { mdiFilter, mdiFilterOutline } from '@mdi/js'; 
 
 export default {
   name: 'Home',
@@ -95,7 +97,8 @@ export default {
 
   data() {
     return {
-      filterIcon: mdiFilterVariant,
+      filterOnIcon: mdiFilter,
+      filterOffIcon: mdiFilterOutline,
       filterDialog: false,
       filterText: "",
       filterTextNext: ""
