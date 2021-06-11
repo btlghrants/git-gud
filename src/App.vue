@@ -10,8 +10,15 @@
     </v-navigation-drawer>
 
     <v-main>
-      <!-- If using vue-router -->
-      <router-view></router-view>
+      <template v-if="loading">
+        <div class="dead-center">
+          <v-progress-circular indeterminate color="primary"/>
+        </div>
+      </template>
+
+      <template v-else>
+        <router-view></router-view>
+      </template>
     </v-main>
 
     <v-footer app class="app-footer">v-footer</v-footer>
@@ -24,7 +31,9 @@ import { VAppBar, VAppBarNavIcon } from 'vuetify/lib/components/VAppBar';
 import { VToolbarTitle } from 'vuetify/lib/components/VToolbar';
 import VNavigationDrawer from 'vuetify/lib/components/VNavigationDrawer';
 import VMain from 'vuetify/lib/components/VMain';
+import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
 import VFooter from 'vuetify/lib/components/VFooter';
+import data from '@/DataService.js'
 
 export default {
   components: {
@@ -34,25 +43,45 @@ export default {
     VToolbarTitle,
     VNavigationDrawer,
     VMain,
+    VProgressCircular,
     VFooter
   },
 
   data() {
     return {
-      drawer: false
+      drawer: false,
+      loading: true,
+      error: false,
+      rawResponse: null,
     };
+  },
+
+  methods: {
+    keydown (event) {
+      event.key === 'Escape' ? this.drawer = false : '';
+    }
+  },
+
+  async created() {
+    await data.load()
+      .then(() => {
+        this.$store.commit('dataLoad', data);
+        this.error = false;
+        this.loading = false;
+      })
+      .catch( error => {
+        console.log(error);
+        this.error = true;
+        this.loading = false;
+      });
   },
 
   mounted () {
     window.addEventListener('keydown', this.keydown)
   },
+
   destroyed () {
     window.removeEventListener('keydown', this.keydown)
-  },
-  methods: {
-    keydown (event) {
-      event.key === 'Escape' ? this.drawer = false : '';
-    }
   }
 }
 </script>
@@ -77,5 +106,11 @@ export default {
 
   .app-footer {
     height: var(--var-footer-height);
+  }
+
+  .dead-center {
+    text-align: center;
+    height: var(--var-main-height);
+    line-height: var(--var-main-height);
   }
 </style>

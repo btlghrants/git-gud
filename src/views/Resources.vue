@@ -1,78 +1,68 @@
 <template>
   <div>
-    <template v-if="loading">
-      <div class="dead-center">
-        <v-progress-circular indeterminate color="primary"/>
-      </div>
-    </template>
-
-    <template v-else>
-      <v-virtual-scroll
-        tabindex="0" ref="scroller" @hook:mounted="focusScroller"
-        height="var(--var-main-height)"
-        itemHeight="552px"
-        :items="hands"
-        bench="1"
-      >
-        <template #default="{ item }">
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12" sm="6" md="6" lg="4" xl="3"
-                v-for="(rec, idx) in item.recommendations"
-                :key="`${idx}-${rec.name}`"
-              >
-                <recommendation-card :recommendation="rec"
-                />
-              </v-col>
-            </v-row>
-          </v-container>
-        </template>
-      </v-virtual-scroll>
-
-      <v-btn fab fixed right id="filter-fab"
-        @click="openFilterDialog()"
-        color="primary"
-      >
-        <v-icon>{{ filterIcon }}</v-icon>
-      </v-btn>
-
-      <!-- https://github.com/vuetifyjs/vuetify/issues/6016 -->
-      <v-dialog
-        width="500px"
-        :value="filterDialog"
-        @input="closeFilterDialog()"
-      >
-        <v-card>
-          <v-form @submit.prevent="submitFilter">
-            <v-card-title>
-              Filter Recommendations
-            </v-card-title>
-            <v-card-text>
-              <v-text-field
-                class="pt-0"
-                autofocus
-                label="topic / name / description / modality"
-                v-model="filterTextNext"
-                hide-details
+    <v-virtual-scroll
+      tabindex="0" ref="scroller" @hook:mounted="focusScroller"
+      height="var(--var-main-height)"
+      itemHeight="552px"
+      :items="hands"
+      bench="1"
+    >
+      <template #default="{ item }">
+        <v-container>
+          <v-row>
+            <v-col
+              cols="12" sm="6" md="6" lg="4" xl="3"
+              v-for="(res, idx) in item.resources"
+              :key="`${idx}-${res.name}`"
+            >
+              <resource-card :resource="res"
               />
-            </v-card-text>
-            <v-card-actions class="flex-row-reverse pt-0 px-4 pb-4">
-              <v-btn color="primary" @click="submitFilter">submit</v-btn>
-              <v-btn color="secondary" @click="cancelFilter" class="mr-2">cancel</v-btn>
-              <v-spacer/>
-              <v-btn @click="clearFilter">clear</v-btn>
-            </v-card-actions>
-          </v-form>
-        </v-card>
-      </v-dialog>
-    </template>
+            </v-col>
+          </v-row>
+        </v-container>
+      </template>
+    </v-virtual-scroll>
 
+    <v-btn fab fixed right id="filter-fab"
+      @click="openFilterDialog()"
+      color="primary"
+    >
+      <v-icon>{{ filterIcon }}</v-icon>
+    </v-btn>
+
+    <!-- https://github.com/vuetifyjs/vuetify/issues/6016 -->
+    <v-dialog
+      width="500px"
+      :value="filterDialog"
+      @input="closeFilterDialog()"
+    >
+      <v-card>
+        <v-form @submit.prevent="submitFilter">
+          <v-card-title>
+            Filter Resources
+          </v-card-title>
+          <v-card-text>
+            <v-text-field
+              class="pt-0"
+              autofocus
+              label="topic / name / description / modality"
+              v-model="filterTextNext"
+              hide-details
+            />
+          </v-card-text>
+          <v-card-actions class="flex-row-reverse pt-0 px-4 pb-4">
+            <v-btn color="primary" @click="submitFilter">submit</v-btn>
+            <v-btn color="secondary" @click="cancelFilter" class="mr-2">cancel</v-btn>
+            <v-spacer/>
+            <v-btn @click="clearFilter">clear</v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
 import VVirtualScroll from 'vuetify/lib/components/VVirtualScroll';
 import { VContainer, VRow, VCol } from 'vuetify/lib/components/VGrid';
 import VBtn from 'vuetify/lib/components/VBtn';
@@ -80,8 +70,7 @@ import VDialog from 'vuetify/lib/components/VDialog';
 import { VCard, VCardTitle,VCardText, VCardActions } from 'vuetify/lib/components/VCard';
 import VForm from 'vuetify/lib/components/VForm'
 import VTextField from 'vuetify/lib/components/VTextField'
-import RecommendationCard from '../components/RecommendationCard.vue';
-import data from '@/DataService.js'
+import ResourceCard from '../components/ResourceCard.vue';
 import { splitEvery } from 'ramda';
 import { mdiFilterVariant } from '@mdi/js'; 
 
@@ -89,7 +78,6 @@ export default {
   name: 'Home',
 
   components: {
-    VProgressCircular,
     VVirtualScroll,
     VContainer,
     VRow,
@@ -102,15 +90,11 @@ export default {
     VCardActions,
     VForm,
     VTextField,
-    RecommendationCard
+    ResourceCard
   },
 
   data() {
     return {
-      loading: true,
-      error: false,
-      rawResponse: null,
-      recommendations: [],
       filterIcon: mdiFilterVariant,
       filterDialog: false,
       filterText: "",
@@ -119,12 +103,16 @@ export default {
   },
 
   computed: {
+    resources() {
+      return this.$store.state.resources;
+    },
+
     filtered() {
       const ft = this.filterText;
 
       return this.filterText === ""
-        ? this.recommendations
-        : this.recommendations.filter(x =>
+        ? this.resources
+        : this.resources.filter(x =>
           x.topic.includes(ft) ||
           x.name.includes(ft) ||
           x.modality.includes(ft) ||
@@ -146,7 +134,7 @@ export default {
     hands() {
       return (
         splitEvery(this.handSize, this.filtered).map((hand, idx) => (
-          { id: `${idx}-${hand[0].name}`, recommendations: hand }
+          { id: `${idx}-${hand[0].name}`, resources: hand }
         ))
       );
     },
@@ -186,20 +174,6 @@ export default {
       this.closeFilterDialog();
     }
   },
-
-  async created() {
-    await data.load()
-      .then(() => {
-        this.recommendations = data.recommendations;
-        this.error = false;
-        this.loading = false;
-      })
-      .catch( error => {
-        console.log(error);
-        this.error = true;
-        this.loading = false;
-      });
-  }
 }
 </script>
 

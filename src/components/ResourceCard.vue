@@ -3,37 +3,37 @@
     <v-img
       height="250px"
       class="text-white"
-      :style="{ backgroundColor: color(recommendation.image) }"
-      :src="recommendation.image"
+      :style="{ backgroundColor: color(resource.image) }"
+      :src="resource.image"
     />
 
     <v-card-title>
-      <a class="text-sm title ellipsis-2" :href="recommendation.link" target="_blank">
-        {{ recommendation.name }}
+      <a class="text-sm title ellipsis-2" :href="resource.link" target="_blank">
+        {{ resource.name }}
       </a>
     </v-card-title>
 
     <v-card-subtitle>
       <div>
-        <span class="pr-2">{{ recommendation.topic }}</span>
+        <span class="pr-2">{{ resource.topic }}</span>
         <span class="pr-2"> - </span>
-        <span>{{ recommendation.focus }}</span>
+        <span>{{ resource.focus }}</span>
       </div>
 
       <div>
         <span class="pr-1">
           <v-icon small class="pb-1">
-            {{ this[`${recommendation.modality}Icon`] }}
+            {{ this[`${resource.modality}Icon`] }}
           </v-icon>
         </span>
-        <span class="pr-2 font-italic">{{ this.duration(recommendation.duration) }}</span>
-        <span class="font-italic">{{ this.cost(recommendation.cost) }}</span>
+        <span class="pr-2 font-italic">{{ this.duration(resource.duration) }}</span>
+        <span class="font-italic">{{ this.cost(resource.cost) }}</span>
       </div>
     </v-card-subtitle>
 
     <v-card-text>
       <div class="ellipsis-5">
-        {{ recommendation.description }}
+        {{ resource.description }}
       </div>
     </v-card-text>
   </v-card>
@@ -58,7 +58,7 @@ import {
 
 export default {
   props: {
-    recommendation: {
+    resource: {
       type: Object,
       required: true
     }

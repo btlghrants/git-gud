@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/resources',
     name: 'Resources',
-    component: Resources
+    component: Resources,
   },
   {
     path: '*',

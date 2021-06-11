@@ -32,6 +32,7 @@ export class DataService {
           'lookups!D1:D', // qualities
           'lookups!E1:E', // topics
           'lookups!F1:F', // modalities
+          'resources!A1:Z',
           'recommendations!A1:Z'
         ]
       })
@@ -55,6 +56,10 @@ export class DataService {
 
       return datum;
     });
+  }
+
+  get resources() {
+    return this.valuesFor('resources!');
   }
 
   get recommendations() {
