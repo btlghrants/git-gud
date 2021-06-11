@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Resources from '@/views/Resources.vue';
+import Recommendations from '@/views/Recommendations.vue';
 import FourOhFour from '@/views/404.vue';
 
 Vue.use(VueRouter);
@@ -14,6 +15,11 @@ const routes = [
     path: '/resources',
     name: 'Resources',
     component: Resources,
+  },
+  {
+    path: '/recommendations',
+    name: 'Recommenations',
+    component: Recommendations,
   },
   {
     path: '*',
