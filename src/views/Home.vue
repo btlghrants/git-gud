@@ -8,7 +8,7 @@
 
     <template v-else>
       <v-virtual-scroll
-        tabindex="0" ref="scroller" @hook:mounted="scrollerMounted"
+        tabindex="0" ref="scroller" @hook:mounted="focusScroller"
         height="var(--var-main-height)"
         itemHeight="552px"
         :items="hands"
@@ -29,6 +29,43 @@
           </v-container>
         </template>
       </v-virtual-scroll>
+
+      <v-btn fab fixed right id="filter-fab"
+        @click="openFilterDialog()"
+        color="primary"
+      >
+        <v-icon>{{ filterIcon }}</v-icon>
+      </v-btn>
+
+      <!-- https://github.com/vuetifyjs/vuetify/issues/6016 -->
+      <v-dialog
+        width="500px"
+        :value="filterDialog"
+        @input="closeFilterDialog()"
+      >
+        <v-card>
+          <v-form @submit.prevent="submitFilter">
+            <v-card-title>
+              Filter Recommendations
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                class="pt-0"
+                autofocus
+                label="topic / name / description / modality"
+                v-model="filterTextNext"
+                hide-details
+              />
+            </v-card-text>
+            <v-card-actions class="flex-row-reverse pt-0 px-4 pb-4">
+              <v-btn color="primary" @click="submitFilter">submit</v-btn>
+              <v-btn color="secondary" @click="cancelFilter" class="mr-2">cancel</v-btn>
+              <v-spacer/>
+              <v-btn @click="clearFilter">clear</v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-dialog>
     </template>
 
   </div>
@@ -38,9 +75,15 @@
 import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
 import VVirtualScroll from 'vuetify/lib/components/VVirtualScroll';
 import { VContainer, VRow, VCol } from 'vuetify/lib/components/VGrid';
+import VBtn from 'vuetify/lib/components/VBtn';
+import VDialog from 'vuetify/lib/components/VDialog';
+import { VCard, VCardTitle,VCardText, VCardActions } from 'vuetify/lib/components/VCard';
+import VForm from 'vuetify/lib/components/VForm'
+import VTextField from 'vuetify/lib/components/VTextField'
 import RecommendationCard from '../components/RecommendationCard.vue';
 import data from '@/DataService.js'
 import { splitEvery } from 'ramda';
+import { mdiFilterVariant } from '@mdi/js'; 
 
 export default {
   name: 'Home',
@@ -51,6 +94,14 @@ export default {
     VContainer,
     VRow,
     VCol,
+    VBtn,
+    VDialog,
+    VCard,
+    VCardTitle,
+    VCardText,
+    VCardActions,
+    VForm,
+    VTextField,
     RecommendationCard
   },
 
@@ -59,11 +110,28 @@ export default {
       loading: true,
       error: false,
       rawResponse: null,
-      recommendations: []
+      recommendations: [],
+      filterIcon: mdiFilterVariant,
+      filterDialog: false,
+      filterText: "",
+      filterTextNext: ""
     };
   },
 
   computed: {
+    filtered() {
+      const ft = this.filterText;
+
+      return this.filterText === ""
+        ? this.recommendations
+        : this.recommendations.filter(x =>
+          x.topic.includes(ft) ||
+          x.name.includes(ft) ||
+          x.modality.includes(ft) ||
+          x.description.includes(ft)
+        );
+    },
+
     handSize() {
       const bp = this.$vuetify.breakpoint.name;
       return (
@@ -77,7 +145,7 @@ export default {
 
     hands() {
       return (
-        splitEvery(this.handSize, this.recommendations).map((hand, idx) => (
+        splitEvery(this.handSize, this.filtered).map((hand, idx) => (
           { id: `${idx}-${hand[0].name}`, recommendations: hand }
         ))
       );
@@ -88,8 +156,34 @@ export default {
     // https://stackoverflow.com/questions/49084991/autofocus-to-a-div-so-we-can-use-arrow-keys-to-scroll-without-having-to-click-fi
     // https://stackoverflow.com/questions/59956948/vuejs-mounted-hook-in-v-on-directive
     // https://michaelnthiessen.com/set-focus-on-input-vue/
-    scrollerMounted() {
+    focusScroller() {
       this.$refs.scroller.$el.focus();
+    },
+
+    openFilterDialog() {
+      this.filterTextNext = this.filterText;
+      this.filterDialog = true;
+    },
+
+    closeFilterDialog() {
+      this.filterDialog = false;
+      this.$nextTick(() => this.focusScroller() );
+    },
+
+    clearFilter() {
+      this.filterText = this.filterTextNext = "";
+      this.closeFilterDialog();
+    },
+
+    cancelFilter() {
+      this.filterTextNext = this.filterText;
+      this.closeFilterDialog();
+    },
+
+    submitFilter() {
+      this.filterText = this.filterTextNext.trim();
+      this.filterDialog = false;
+      this.closeFilterDialog();
     }
   },
 
@@ -120,5 +214,9 @@ export default {
   }
   .v-virtual-scroll:focus {
     outline: 0 solid transparent;
+  }
+  #filter-fab {
+    bottom: calc(var(--var-footer-height) + 1rem);
+    right: var(--var-footer-height);
   }
 </style>
