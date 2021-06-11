@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app class="app-header">
+    <v-app-bar app dense class="app-header">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>git-gud</v-toolbar-title>
     </v-app-bar>
@@ -66,7 +66,7 @@ export default {
   // https://developer.mozilla.org/en-US/docs/Web/CSS/calc()#nested_calc_with_css_variables
   // https://stackoverflow.com/questions/53240081/css-variables-use-in-vue
   * {
-    --var-header-height: 64px;
+    --var-header-height: 48px;
     --var-footer-height: 32px;
     --var-main-height: calc(100vh - var(--var-header-height) - var(--var-footer-height));
   }
