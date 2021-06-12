@@ -77,7 +77,7 @@ import { curry, identity, pipe, splitEvery } from 'ramda';
 import { mdiFilter, mdiFilterOutline } from '@mdi/js'; 
 
 export default {
-  name: 'Home',
+  name: 'Recommendations',
 
   components: {
     VVirtualScroll,

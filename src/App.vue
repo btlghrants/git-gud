@@ -70,7 +70,7 @@ import {
 import VMain from 'vuetify/lib/components/VMain';
 import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
 import VFooter from 'vuetify/lib/components/VFooter';
-import { mdiBook, mdiStarCircle } from '@mdi/js'; 
+import { mdiBookshelf, mdiStarCircle, mdiClipboardList } from '@mdi/js'; 
 import data from '@/DataService.js'
 
 export default {
@@ -95,8 +95,9 @@ export default {
     return {
       // https://router.vuejs.org/api/#to
       navs: [
-        { icon: mdiBook, text: "Resources", route: { name: "Resources" }},
-        { icon: mdiStarCircle, text: "Recommendations", route: { name: "Recommendations" }}
+        { icon: mdiBookshelf, text: "Resources", route: { name: "Resources" }},
+        { icon: mdiStarCircle, text: "Recommendations", route: { name: "Recommendations" }},
+        { icon: mdiClipboardList, text: "Instructions", route: { name: "Instructions" }}
       ],
       drawer: false,
       loading: true,
