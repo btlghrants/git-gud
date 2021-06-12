@@ -18,7 +18,7 @@ const routes = [
   },
   {
     path: '/recommendations',
-    name: 'Recommenations',
+    name: 'Recommendations',
     component: Recommendations,
   },
   {

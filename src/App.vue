@@ -6,7 +6,23 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" fixed temporary>
-      <!--  -->
+
+      <v-list dense nav>
+        <v-list-item link :to="nav.route"
+          v-for="nav in navs"
+          :key="nav.text"
+        >
+          <!-- <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon> -->
+
+          <v-list-item-content>
+            <v-list-item-title>{{ nav.text }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+
     </v-navigation-drawer>
 
     <v-main>
@@ -49,6 +65,11 @@ export default {
 
   data() {
     return {
+      // https://router.vuejs.org/api/#to
+      navs: [
+        { text: "Resources", route: { name: "Resources" }},
+        { text: "Recommendations", route: { name: "Recommendations" }}
+      ],
       drawer: false,
       loading: true,
       error: false,
