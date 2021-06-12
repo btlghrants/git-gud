@@ -7,14 +7,27 @@
 
     <v-navigation-drawer v-model="drawer" fixed temporary>
 
-      <v-list dense nav>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="text-h6 pb-4">
+            git-gud
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            I'm looking for...
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list nav>
         <v-list-item link :to="nav.route"
           v-for="nav in navs"
           :key="nav.text"
         >
-          <!-- <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon> -->
+          <v-list-item-icon>
+            <v-icon>{{ nav.icon }}</v-icon>
+          </v-list-item-icon>
 
           <v-list-item-content>
             <v-list-item-title>{{ nav.text }}</v-list-item-title>
@@ -46,9 +59,18 @@ import VApp from 'vuetify/lib/components/VApp';
 import { VAppBar, VAppBarNavIcon } from 'vuetify/lib/components/VAppBar';
 import { VToolbarTitle } from 'vuetify/lib/components/VToolbar';
 import VNavigationDrawer from 'vuetify/lib/components/VNavigationDrawer';
+import {
+  VList,
+  VListItem,
+  VListItemIcon,
+  VListItemContent,
+  VListItemTitle,
+  VListItemSubtitle
+} from 'vuetify/lib/components/VList'
 import VMain from 'vuetify/lib/components/VMain';
 import VProgressCircular from 'vuetify/lib/components/VProgressCircular';
 import VFooter from 'vuetify/lib/components/VFooter';
+import { mdiBook, mdiStarCircle } from '@mdi/js'; 
 import data from '@/DataService.js'
 
 export default {
@@ -58,6 +80,12 @@ export default {
     VAppBarNavIcon,
     VToolbarTitle,
     VNavigationDrawer,
+    VList,
+    VListItem,
+    VListItemIcon,
+    VListItemContent,
+    VListItemTitle,
+    VListItemSubtitle,
     VMain,
     VProgressCircular,
     VFooter
@@ -67,8 +95,8 @@ export default {
     return {
       // https://router.vuejs.org/api/#to
       navs: [
-        { text: "Resources", route: { name: "Resources" }},
-        { text: "Recommendations", route: { name: "Recommendations" }}
+        { icon: mdiBook, text: "Resources", route: { name: "Resources" }},
+        { icon: mdiStarCircle, text: "Recommendations", route: { name: "Recommendations" }}
       ],
       drawer: false,
       loading: true,
